@@ -305,6 +305,64 @@ p{margin:0;}
 .teaser__i img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease);}
 .teaser__i:hover img{transform:scale(1.06);}
 
+
+/* ===== live Shopify collection ===== */
+[hidden]{display:none !important;}
+.shop{background:var(--bone);}
+.shop .label{position:relative;}
+.shop .live-dot{display:none;width:7px;height:7px;border-radius:50%;background:#5B8A5B;margin-left:2px;position:relative;flex:none;}
+.shop.is-live .live-dot{display:inline-block;}
+.shop .live-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:#5B8A5B;opacity:0.45;animation:pulse 1.8s ease-out infinite;}
+@keyframes pulse{0%{transform:scale(0.6);opacity:0.5;}100%{transform:scale(1.8);opacity:0;}}
+@media(prefers-reduced-motion:reduce){.shop .live-dot::after{animation:none;display:none;}}
+.shop h2{font-size:clamp(2.1rem,4.4vw,3.4rem);max-width:14ch;margin-top:20px;}
+.shop__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+@media(max-width:1100px){.shop__grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:780px){.shop__grid{grid-template-columns:1fr 1fr;gap:14px;}}
+@media(max-width:480px){.shop__grid{grid-template-columns:1fr;}}
+.pcard{background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;min-width:0;}
+.pcard__media{position:relative;padding-top:100%;overflow:hidden;background:var(--sand);}
+.pcard__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease);}
+.pcard:hover .pcard__media img{transform:scale(1.05);}
+.pcard__badge{position:absolute;top:12px;left:12px;display:none;font-size:0.6rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;padding:6px 10px;}
+.pcard__badge.is-sale{display:block;background:var(--rust);color:var(--bone);}
+.pcard__badge.is-out{display:block;background:var(--ink);color:var(--bone);}
+.pcard__body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:11px;flex:1;}
+.pcard__title{font-size:1.14rem;line-height:1.22;}
+.pcard__desc{font-size:0.84rem;line-height:1.5;color:var(--text-soft);}
+.pcard__price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.pcard__now{font-family:var(--font-display);font-size:1.28rem;}
+.pcard__was{font-size:0.9rem;color:var(--taupe);}
+.pcard__na{font-size:0.84rem;color:var(--taupe);}
+.pcard__optname{display:block;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:7px;}
+.pcard__chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font-family:var(--font-body);font-size:0.72rem;padding:7px 10px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;transition:border-color .3s var(--ease),background .3s var(--ease),color .3s var(--ease);}
+.chip:hover{border-color:var(--ink);}
+.chip.is-on{background:var(--ink);color:var(--bone);border-color:var(--ink);}
+.chip.is-out{text-decoration:line-through;opacity:0.5;}
+.chip.is-on.is-out{opacity:0.8;}
+.pcard__acts{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:11px;}
+.pcard__buy{width:100%;justify-content:center;padding:14px 18px;text-decoration:none;}
+.pcard__buy:disabled{opacity:0.42;cursor:not-allowed;}
+.pcard__ask{font-size:0.64rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);text-align:center;}
+.pcard__ask:hover{color:var(--ink);}
+.pcard--skel .pcard__media{background:linear-gradient(90deg,var(--sand) 0%,var(--bone) 50%,var(--sand) 100%);background-size:200% 100%;animation:skel 1.4s linear infinite;}
+.pcard--skel i{display:block;height:11px;background:var(--sand);margin:5px 0;}
+.pcard--skel i + i{width:48%;}
+@keyframes skel{to{background-position:-200% 0;}}
+.shop__state{padding:48px 24px;border:1px dashed var(--line);text-align:center;color:var(--text-soft);display:flex;flex-direction:column;align-items:center;gap:18px;}
+.shop__foot{margin-top:42px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.shop__note{margin-top:18px;text-align:center;font-size:0.76rem;color:var(--taupe);}
+
+/* ===== gallery thumbnails, expandable description, cart bubble (added for live cart) ===== */
+.pcard__thumbs{position:absolute;left:10px;right:10px;bottom:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;}
+.pcard__thumb{width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.85);background:rgba(36,29,22,0.35);padding:0;cursor:pointer;}
+.pcard__thumb.is-on{background:#fff;}
+.pcard__more{background:none;border:none;padding:0;font-size:0.82rem;font-weight:700;color:var(--rust);cursor:pointer;text-decoration:underline;}
+a.pcard__buy[aria-disabled="true"]{pointer-events:none;opacity:0.5;}
+
+
+.pcard__secure{font-size:0.72rem;color:var(--taupe);text-align:center;margin:0;}
 </style>
 </head>
 <body>
@@ -327,11 +385,12 @@ p{margin:0;}
   </a>
   <ul class="sidenav__links">
     <li><a href="index.html"><span class="num">01</span> Home</a></li>
-    <li><a href="index.html#work"><span class="num">02</span> Work</a></li>
-    <li><a href="index.html#services"><span class="num">03</span> Services</a></li>
-    <li><a href="models.html"><span class="num">04</span> 3D Models</a></li>
-    <li><a href="about.html"><span class="num">05</span> About</a></li>
-    <li><a href="contact.html"><span class="num">06</span> Contact</a></li>
+    <li><a href="models.html#shop"><span class="num">02</span> Shop 3D Models</a></li>
+    <li><a href="models.html"><span class="num">03</span> Custom &amp; Miniatures</a></li>
+    <li><a href="index.html#work"><span class="num">04</span> Interiors</a></li>
+    <li><a href="index.html#services"><span class="num">05</span> Services</a></li>
+    <li><a href="about.html"><span class="num">06</span> About</a></li>
+    <li><a href="contact.html"><span class="num">07</span> Contact</a></li>
   </ul>
   <a href="contact.html" class="sidenav__cta">Start a project <span>&rarr;</span></a>
   <div class="sidenav__foot">Interiors<br>Construction<br>3D Design<br>Models &amp; Miniatures</div>
@@ -345,6 +404,25 @@ p{margin:0;}
     <h1>Made to your wish, <em>printed to last.</em></h1>
     <p class="lede lede--inv">Miniature statues and custom figurines have become some of the most-wanted gifts going — a couple, a family, a pet, rendered in your hands. We model and print each one to the requirement.</p>
   </header>
+
+  <section class="shop pad" id="shop">
+    <div class="wrap">
+      <div class="svc__head">
+        <div class="rv">
+          <div class="label">The collection &middot; live from our store <span class="live-dot" aria-hidden="true"></span></div>
+          <h2>Shop the collection.</h2>
+        </div>
+        <p class="lede rv rv-d1">Designed, 3D printed and hand finished in Jaipur. Prices, colours, offers and stock update straight from our shop.</p>
+      </div>
+      <div data-shop="12">
+        <div class="shop__grid"></div>
+        <div class="shop__state" hidden></div>
+        <div class="shop__foot"><button type="button" class="btn btn-dark shop__more" hidden>Load more pieces</button></div>
+        <p class="shop__note">Looking for something personal? <a href="contact.html" style="color:var(--rust)">Ask for a custom figurine &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
 
   <section class="pad" style="background:var(--bone);">
     <div class="wrap">
@@ -475,6 +553,7 @@ p{margin:0;}
           <a href="index.html#work">Work</a>
           <a href="index.html#services">Services</a>
           <a href="models.html">3D Models</a>
+          <a href="models.html#shop">Shop</a>
           <a href="models.html">3D &amp; Miniatures</a>
           <a href="about.html">About</a>
           <a href="contact.html">Contact</a>
@@ -739,6 +818,229 @@ var WHATSAPP_NUMBER = '917014444080';
   });
 })();
 
+
+/* ---------- Shopify live collection ----------
+   Products, prices, colours, images, stock and sale (compare-at) prices load LIVE
+   from Shopify on every visit - change anything in Shopify admin and the site follows
+   automatically. Read-only: this page only asks Shopify for published catalog data.
+   The actual cart and checkout happen entirely on Shopify's own pages, which is the
+   most reliable way to run them - no custom cart code here to go wrong.
+
+   NOTE on domains: apxstudio.in is left out of the live list below for now. Until
+   it's confirmed fully connected as this shop's domain in Shopify, trying it first
+   (or at all) only adds a slow failed attempt before falling back - so only the
+   guaranteed-working myshopify.com address is used. Add 'apxstudio.in' back into
+   the array once the custom domain is confirmed working. */
+var SHOPIFY = {
+  domains:    ['cdtakk-4b.myshopify.com'],
+  apiVersion: '2026-01',
+  token:      '334b4b2a8ef68b6a5aa12b345979d418',
+  storeUrl:   'https://cdtakk-4b.myshopify.com',
+  whatsapp:   '917014444080'
+};
+
+(function(){
+  var roots = document.querySelectorAll('[data-shop]');
+  if(!roots.length) return;
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function money(m){
+    if(!m) return '';
+    var n = parseFloat(m.amount), cur = m.currencyCode || 'INR';
+    try { return new Intl.NumberFormat('en-IN',{style:'currency',currency:cur,maximumFractionDigits:(n % 1 ? 2 : 0)}).format(n); }
+    catch(e){ return cur + ' ' + n; }
+  }
+  function sized(url, w){ return url ? url + (url.indexOf('?') > -1 ? '&' : '?') + 'width=' + w : ''; }
+  function numericId(gid){ var m = /(\d+)$/.exec(gid || ''); return m ? m[1] : ''; }
+
+  /* One read-only Storefront API call, with a hard ceiling so a stuck request can
+     never hang forever - after ~6s per domain it moves on, and the caller always
+     has a graceful fallback for when every domain fails. */
+  function sf(query, variables){
+    var i = 0;
+    function attempt(){
+      if(i >= SHOPIFY.domains.length) return Promise.reject(new Error('store unreachable'));
+      var d = SHOPIFY.domains[i++];
+      var ctrl = ('AbortController' in window) ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function(){ ctrl.abort(); }, 6000) : null;
+      var headers = {'Content-Type':'application/json','Accept':'application/json'};
+      if(SHOPIFY.token) headers['X-Shopify-Storefront-Access-Token'] = SHOPIFY.token;
+      return fetch('https://' + d + '/api/' + SHOPIFY.apiVersion + '/graphql.json', {
+          method:'POST', headers:headers,
+          body: JSON.stringify({query:query, variables:variables || {}}),
+          signal: ctrl ? ctrl.signal : undefined })
+        .then(function(r){ if(timer) clearTimeout(timer); if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function(j){ if(!j.data) throw new Error((j.errors && j.errors[0] && j.errors[0].message) || 'no data'); return j.data; })
+        .catch(function(){ if(timer) clearTimeout(timer); return attempt(); });
+    }
+    return attempt();
+  }
+
+  var PRODUCTS = 'query($n:Int!,$after:String){products(first:$n,after:$after,sortKey:CREATED_AT,reverse:true){'
+    + 'pageInfo{hasNextPage endCursor}nodes{id handle title description availableForSale onlineStoreUrl '
+    + 'featuredImage{url altText}images(first:6){nodes{url altText}}options{name optionValues{name}}'
+    + 'variants(first:12){nodes{id title availableForSale price{amount currencyCode}compareAtPrice{amount currencyCode}'
+    + 'selectedOptions{name value}image{url altText}}}}}}';
+
+  function firstBuyable(p){ var vs = p.variants.nodes; for(var i=0;i<vs.length;i++) if(vs[i].availableForSale) return vs[i]; return vs[0]; }
+  function match(p, sel){
+    var vs = p.variants.nodes;
+    for(var i=0;i<vs.length;i++){
+      if(vs[i].selectedOptions.every(function(o){ return sel[o.name] === o.value; })) return vs[i];
+    }
+    return null;
+  }
+  function productUrl(p, v){
+    /* Always build the link from the known-good myshopify.com address, never from
+       Shopify's own reported onlineStoreUrl. If apxstudio.in is set as this shop's
+       domain in Shopify but its DNS actually points to this website (not to
+       Shopify), onlineStoreUrl would send customers back to this site at a page
+       that doesn't exist here - exactly the 404 this avoids. */
+    var base = SHOPIFY.storeUrl + '/products/' + p.handle;
+    var vid = v && numericId(v.id);
+    return vid ? base + '?variant=' + vid : base;
+  }
+
+  function card(p){
+    var el = document.createElement('article'); el.className = 'pcard';
+    var v = firstBuyable(p), sel = {};
+    v.selectedOptions.forEach(function(o){ sel[o.name] = o.value; });
+    var opts = (p.options || []).filter(function(o){ return o.optionValues && o.optionValues.length > 1; });
+    var fullDesc = p.description || '';
+    var isLong = fullDesc.length > 110;
+    var shortDesc = isLong ? fullDesc.slice(0,110).replace(/\s+\S*$/,'') + '\u2026' : fullDesc;
+    var gallery = (p.images && p.images.nodes && p.images.nodes.length) ? p.images.nodes : (p.featuredImage ? [p.featuredImage] : []);
+
+    el.innerHTML =
+      '<div class="pcard__media">'
+    +   '<img loading="lazy" alt="' + esc((p.featuredImage && p.featuredImage.altText) || p.title) + '">'
+    +   '<span class="pcard__badge"></span>'
+    +   (gallery.length > 1 ? '<div class="pcard__thumbs">' + gallery.map(function(g,i){
+          return '<button type="button" class="pcard__thumb' + (i===0?' is-on':'') + '" data-src="' + esc(g.url) + '" aria-label="Image ' + (i+1) + '"></button>';
+        }).join('') + '</div>' : '')
+    + '</div>'
+    + '<div class="pcard__body">'
+    +   '<h3 class="pcard__title">' + esc(p.title) + '</h3>'
+    +   (fullDesc ? '<p class="pcard__desc"><span class="pcard__desc-txt">' + esc(shortDesc) + '</span>'
+          + (isLong ? ' <button type="button" class="pcard__more">Read more</button>' : '') + '</p>' : '')
+    +   '<div class="pcard__price"></div>'
+    +   opts.map(function(o){
+          return '<div class="pcard__opt" data-opt="' + esc(o.name) + '"><span class="pcard__optname">' + esc(o.name) + '</span><div class="pcard__chips">'
+            + o.optionValues.map(function(val){ return '<button type="button" class="chip" data-val="' + esc(val.name) + '">' + esc(val.name) + '</button>'; }).join('')
+            + '</div></div>';
+        }).join('')
+    +   '<div class="pcard__acts">'
+    +     '<a class="btn btn-solid pcard__buy" target="_blank" rel="noopener">Buy Now</a>'
+    +     '<p class="pcard__secure">Opens our Shopify store in a new tab to complete your purchase.</p>'
+    +     '<a class="pcard__ask" target="_blank" rel="noopener">Ask on WhatsApp</a>'
+    +   '</div>'
+    + '</div>';
+
+    var img = el.querySelector('img'), badge = el.querySelector('.pcard__badge'),
+        price = el.querySelector('.pcard__price'), buy = el.querySelector('.pcard__buy'),
+        ask = el.querySelector('.pcard__ask'), moreBtn = el.querySelector('.pcard__more');
+    var userPickedImage = false;
+
+    function paint(){
+      v = match(p, sel);
+      if(!userPickedImage){
+        var src = (v && v.image && v.image.url) || (p.featuredImage && p.featuredImage.url) || (gallery[0] && gallery[0].url) || '';
+        if(src) img.src = sized(src, 800);
+      }
+      badge.className = 'pcard__badge'; badge.textContent = '';
+      if(!v){
+        price.innerHTML = '<span class="pcard__na">Not made in this combination</span>';
+        buy.setAttribute('aria-disabled','true'); buy.removeAttribute('href'); buy.textContent = 'Unavailable';
+      } else {
+        var sale = v.compareAtPrice && parseFloat(v.compareAtPrice.amount) > parseFloat(v.price.amount);
+        price.innerHTML = '<span class="pcard__now">' + money(v.price) + '</span>' + (sale ? '<s class="pcard__was">' + money(v.compareAtPrice) + '</s>' : '');
+        if(!v.availableForSale){ badge.textContent = 'Sold out'; badge.className = 'pcard__badge is-out'; }
+        else if(sale){
+          var pct = Math.round((1 - parseFloat(v.price.amount) / parseFloat(v.compareAtPrice.amount)) * 100);
+          badge.textContent = pct + '% off'; badge.className = 'pcard__badge is-sale';
+        }
+        if(v.availableForSale){ buy.removeAttribute('aria-disabled'); buy.href = productUrl(p, v); buy.textContent = 'Buy Now'; }
+        else { buy.setAttribute('aria-disabled','true'); buy.href = productUrl(p, v); buy.textContent = 'Sold out'; }
+      }
+      Array.prototype.forEach.call(el.querySelectorAll('.pcard__opt'), function(g){
+        var name = g.getAttribute('data-opt');
+        Array.prototype.forEach.call(g.querySelectorAll('.chip'), function(c){
+          var val = c.getAttribute('data-val');
+          c.classList.toggle('is-on', sel[name] === val);
+          var trial = {}; for(var k in sel) trial[k] = sel[k]; trial[name] = val;
+          var tv = match(p, trial);
+          c.classList.toggle('is-out', !tv || !tv.availableForSale);
+        });
+      });
+      var label = p.title + (v && v.title !== 'Default Title' ? ' (' + v.title + ')' : '');
+      ask.href = 'https://wa.me/' + SHOPIFY.whatsapp + '?text=' + encodeURIComponent("Hi APX Studio, I'm interested in: " + label);
+    }
+
+    el.addEventListener('click', function(e){
+      var t = e.target;
+      var chip = t.closest ? t.closest('.chip') : null;
+      if(chip){
+        userPickedImage = false;
+        sel[chip.closest('.pcard__opt').getAttribute('data-opt')] = chip.getAttribute('data-val');
+        paint();
+        return;
+      }
+      var thumb = t.closest ? t.closest('.pcard__thumb') : null;
+      if(thumb){
+        userPickedImage = true;
+        img.src = sized(thumb.getAttribute('data-src'), 800);
+        Array.prototype.forEach.call(el.querySelectorAll('.pcard__thumb'), function(x){ x.classList.toggle('is-on', x === thumb); });
+        return;
+      }
+      if(t === moreBtn){
+        var txt = el.querySelector('.pcard__desc-txt');
+        var expanded = moreBtn.getAttribute('data-open') === '1';
+        txt.textContent = expanded ? shortDesc : fullDesc;
+        moreBtn.textContent = expanded ? 'Read more' : 'Show less';
+        moreBtn.setAttribute('data-open', expanded ? '0' : '1');
+      }
+    });
+
+    if(moreBtn) moreBtn.setAttribute('data-open','0');
+    paint();
+    return el;
+  }
+
+  Array.prototype.forEach.call(roots, function(root){
+    var n = parseInt(root.getAttribute('data-shop'), 10) || 12;
+    var list = root.querySelector('.shop__grid'), more = root.querySelector('.shop__more'), state = root.querySelector('.shop__state');
+    var cursor = null;
+    list.innerHTML = new Array(Math.min(n, 4) + 1).join('<div class="pcard pcard--skel"><div class="pcard__media"></div><div class="pcard__body"><i></i><i></i></div></div>');
+
+    function load(first){
+      return sf(PRODUCTS, {n:n, after:cursor}).then(function(d){
+        var pr = d.products;
+        if(first) list.innerHTML = '';
+        if(first && !pr.nodes.length){
+          state.hidden = false;
+          state.innerHTML = '<p>New pieces are on their way.</p><a class="btn btn-dark" href="' + SHOPIFY.storeUrl + '" target="_blank" rel="noopener">Visit the store &rarr;</a>';
+          return;
+        }
+        pr.nodes.forEach(function(p){ if(p.variants && p.variants.nodes.length) list.appendChild(card(p)); });
+        cursor = pr.pageInfo.endCursor;
+        if(more) more.hidden = !pr.pageInfo.hasNextPage;
+        root.classList.add('is-live');
+        var sec = root.closest('.shop'); if(sec) sec.classList.add('is-live');
+      });
+    }
+    load(true).catch(function(){
+      list.innerHTML = '';
+      state.hidden = false;
+      state.innerHTML = '<p>The live collection loads straight from our store when you are online.</p>'
+        + '<a class="btn btn-dark" href="' + SHOPIFY.storeUrl + '" target="_blank" rel="noopener">Open the APX store &rarr;</a>';
+    });
+    if(more) more.addEventListener('click', function(){
+      more.disabled = true;
+      load(false).then(function(){ more.disabled = false; }, function(){ more.disabled = false; });
+    });
+  });
+})();
 </script>
 </body>
 </html>
