@@ -363,6 +363,9 @@ a.pcard__buy[aria-disabled="true"]{pointer-events:none;opacity:0.5;}
 
 
 .pcard__secure{font-size:0.72rem;color:var(--taupe);text-align:center;margin:0;}
+
+.pcard__titlelink{color:inherit;text-decoration:none;}
+.pcard__titlelink:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -921,7 +924,7 @@ var SHOPIFY = {
         }).join('') + '</div>' : '')
     + '</div>'
     + '<div class="pcard__body">'
-    +   '<h3 class="pcard__title">' + esc(p.title) + '</h3>'
+    +   '<h3 class="pcard__title"><a class="pcard__titlelink" target="_blank" rel="noopener">' + esc(p.title) + '</a></h3>'
     +   (fullDesc ? '<p class="pcard__desc"><span class="pcard__desc-txt">' + esc(shortDesc) + '</span>'
           + (isLong ? ' <button type="button" class="pcard__more">Read more</button>' : '') + '</p>' : '')
     +   '<div class="pcard__price"></div>'
@@ -939,42 +942,59 @@ var SHOPIFY = {
 
     var img = el.querySelector('img'), badge = el.querySelector('.pcard__badge'),
         price = el.querySelector('.pcard__price'), buy = el.querySelector('.pcard__buy'),
+        titleLink = el.querySelector('.pcard__titlelink'),
         ask = el.querySelector('.pcard__ask'), moreBtn = el.querySelector('.pcard__more');
     var userPickedImage = false;
 
+    // Guaranteed baseline: a working link to the real product page, set immediately
+    // from the starting variant. Everything paint() does afterwards can only refine
+    // this - it can never leave the button pointing nowhere.
+    var baseHref = productUrl(p, v);
+    buy.href = baseHref; titleLink.href = baseHref;
+
     function paint(){
-      v = match(p, sel);
-      if(!userPickedImage){
-        var src = (v && v.image && v.image.url) || (p.featuredImage && p.featuredImage.url) || (gallery[0] && gallery[0].url) || '';
-        if(src) img.src = sized(src, 800);
-      }
-      badge.className = 'pcard__badge'; badge.textContent = '';
-      if(!v){
-        price.innerHTML = '<span class="pcard__na">Not made in this combination</span>';
-        buy.setAttribute('aria-disabled','true'); buy.removeAttribute('href'); buy.textContent = 'Unavailable';
-      } else {
-        var sale = v.compareAtPrice && parseFloat(v.compareAtPrice.amount) > parseFloat(v.price.amount);
-        price.innerHTML = '<span class="pcard__now">' + money(v.price) + '</span>' + (sale ? '<s class="pcard__was">' + money(v.compareAtPrice) + '</s>' : '');
-        if(!v.availableForSale){ badge.textContent = 'Sold out'; badge.className = 'pcard__badge is-out'; }
-        else if(sale){
-          var pct = Math.round((1 - parseFloat(v.price.amount) / parseFloat(v.compareAtPrice.amount)) * 100);
-          badge.textContent = pct + '% off'; badge.className = 'pcard__badge is-sale';
+      try{
+        v = match(p, sel);
+        if(!userPickedImage){
+          var src = (v && v.image && v.image.url) || (p.featuredImage && p.featuredImage.url) || (gallery[0] && gallery[0].url) || '';
+          if(src) img.src = sized(src, 800);
         }
-        if(v.availableForSale){ buy.removeAttribute('aria-disabled'); buy.href = productUrl(p, v); buy.textContent = 'Buy Now'; }
-        else { buy.setAttribute('aria-disabled','true'); buy.href = productUrl(p, v); buy.textContent = 'Sold out'; }
-      }
-      Array.prototype.forEach.call(el.querySelectorAll('.pcard__opt'), function(g){
-        var name = g.getAttribute('data-opt');
-        Array.prototype.forEach.call(g.querySelectorAll('.chip'), function(c){
-          var val = c.getAttribute('data-val');
-          c.classList.toggle('is-on', sel[name] === val);
-          var trial = {}; for(var k in sel) trial[k] = sel[k]; trial[name] = val;
-          var tv = match(p, trial);
-          c.classList.toggle('is-out', !tv || !tv.availableForSale);
+        badge.className = 'pcard__badge'; badge.textContent = '';
+        if(!v){
+          price.innerHTML = '<span class="pcard__na">Not made in this combination</span>';
+          buy.setAttribute('aria-disabled','true'); buy.textContent = 'Unavailable';
+        } else {
+          var href = productUrl(p, v);
+          buy.href = href; titleLink.href = href;
+          var sale = v.compareAtPrice && parseFloat(v.compareAtPrice.amount) > parseFloat(v.price.amount);
+          price.innerHTML = '<span class="pcard__now">' + money(v.price) + '</span>' + (sale ? '<s class="pcard__was">' + money(v.compareAtPrice) + '</s>' : '');
+          if(!v.availableForSale){ badge.textContent = 'Sold out'; badge.className = 'pcard__badge is-out'; }
+          else if(sale){
+            var pct = Math.round((1 - parseFloat(v.price.amount) / parseFloat(v.compareAtPrice.amount)) * 100);
+            badge.textContent = pct + '% off'; badge.className = 'pcard__badge is-sale';
+          }
+          if(v.availableForSale){ buy.removeAttribute('aria-disabled'); buy.textContent = 'Buy Now'; }
+          else { buy.setAttribute('aria-disabled','true'); buy.textContent = 'Sold out'; }
+        }
+        Array.prototype.forEach.call(el.querySelectorAll('.pcard__opt'), function(g){
+          var name = g.getAttribute('data-opt');
+          Array.prototype.forEach.call(g.querySelectorAll('.chip'), function(c){
+            var val = c.getAttribute('data-val');
+            c.classList.toggle('is-on', sel[name] === val);
+            var trial = {}; for(var k in sel) trial[k] = sel[k]; trial[name] = val;
+            var tv = match(p, trial);
+            c.classList.toggle('is-out', !tv || !tv.availableForSale);
+          });
         });
-      });
-      var label = p.title + (v && v.title !== 'Default Title' ? ' (' + v.title + ')' : '');
-      ask.href = 'https://wa.me/' + SHOPIFY.whatsapp + '?text=' + encodeURIComponent("Hi APX Studio, I'm interested in: " + label);
+        var label = p.title + (v && v.title !== 'Default Title' ? ' (' + v.title + ')' : '');
+        ask.href = 'https://wa.me/' + SHOPIFY.whatsapp + '?text=' + encodeURIComponent("Hi APX Studio, I'm interested in: " + label);
+      } catch(err){
+        // Whatever went wrong above, never leave the buttons pointing nowhere -
+        // fall back to the guaranteed baseline link set when the card was built.
+        buy.href = baseHref; buy.removeAttribute('aria-disabled'); if(buy.textContent === '') buy.textContent = 'Buy Now';
+        titleLink.href = baseHref;
+        ask.href = 'https://wa.me/' + SHOPIFY.whatsapp + '?text=' + encodeURIComponent("Hi APX Studio, I'm interested in: " + p.title);
+      }
     }
 
     el.addEventListener('click', function(e){
@@ -1022,7 +1042,11 @@ var SHOPIFY = {
           state.innerHTML = '<p>New pieces are on their way.</p><a class="btn btn-dark" href="' + SHOPIFY.storeUrl + '" target="_blank" rel="noopener">Visit the store &rarr;</a>';
           return;
         }
-        pr.nodes.forEach(function(p){ if(p.variants && p.variants.nodes.length) list.appendChild(card(p)); });
+        pr.nodes.forEach(function(p){
+          if(!p.variants || !p.variants.nodes.length) return;
+          try{ list.appendChild(card(p)); }
+          catch(err){ /* one bad product should never blank the whole grid */ }
+        });
         cursor = pr.pageInfo.endCursor;
         if(more) more.hidden = !pr.pageInfo.hasNextPage;
         root.classList.add('is-live');
