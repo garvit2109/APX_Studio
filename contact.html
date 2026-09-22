@@ -305,6 +305,58 @@ p{margin:0;}
 .teaser__i img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease);}
 .teaser__i:hover img{transform:scale(1.06);}
 
+
+/* ===== live Shopify collection ===== */
+[hidden]{display:none !important;}
+.shop{background:var(--bone);}
+.shop h2{font-size:clamp(2.1rem,4.4vw,3.4rem);max-width:14ch;margin-top:20px;}
+.shop__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+@media(max-width:1100px){.shop__grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:780px){.shop__grid{grid-template-columns:1fr 1fr;gap:14px;}}
+@media(max-width:480px){.shop__grid{grid-template-columns:1fr;}}
+.pcard{background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;min-width:0;}
+.pcard__media{position:relative;padding-top:100%;overflow:hidden;background:var(--sand);}
+.pcard__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease);}
+.pcard:hover .pcard__media img{transform:scale(1.05);}
+.pcard__badge{position:absolute;top:12px;left:12px;display:none;font-size:0.6rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;padding:6px 10px;}
+.pcard__badge.is-sale{display:block;background:var(--rust);color:var(--bone);}
+.pcard__badge.is-out{display:block;background:var(--ink);color:var(--bone);}
+.pcard__body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:11px;flex:1;}
+.pcard__title{font-size:1.14rem;line-height:1.22;}
+.pcard__desc{font-size:0.84rem;line-height:1.5;color:var(--text-soft);}
+.pcard__price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.pcard__now{font-family:var(--font-display);font-size:1.28rem;}
+.pcard__was{font-size:0.9rem;color:var(--taupe);}
+.pcard__na{font-size:0.84rem;color:var(--taupe);}
+.pcard__optname{display:block;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:7px;}
+.pcard__chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font-family:var(--font-body);font-size:0.72rem;padding:7px 10px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;transition:border-color .3s var(--ease),background .3s var(--ease),color .3s var(--ease);}
+.chip:hover{border-color:var(--ink);}
+.chip.is-on{background:var(--ink);color:var(--bone);border-color:var(--ink);}
+.chip.is-out{text-decoration:line-through;opacity:0.5;}
+.chip.is-on.is-out{opacity:0.8;}
+.pcard__acts{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:11px;}
+.pcard__buy{width:100%;justify-content:center;padding:14px 18px;}
+.pcard__buy:disabled{opacity:0.42;cursor:not-allowed;}
+.pcard__ask{font-size:0.64rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);text-align:center;}
+.pcard__ask:hover{color:var(--ink);}
+.pcard--skel .pcard__media{background:linear-gradient(90deg,var(--sand) 0%,var(--bone) 50%,var(--sand) 100%);background-size:200% 100%;animation:skel 1.4s linear infinite;}
+.pcard--skel i{display:block;height:11px;background:var(--sand);margin:5px 0;}
+.pcard--skel i + i{width:48%;}
+@keyframes skel{to{background-position:-200% 0;}}
+.shop__state{padding:48px 24px;border:1px dashed var(--line);text-align:center;color:var(--text-soft);display:flex;flex-direction:column;align-items:center;gap:18px;}
+.shop__foot{margin-top:42px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.shop__note{margin-top:18px;text-align:center;font-size:0.76rem;color:var(--taupe);}
+
+/* 3D-led split hero */
+.hero--split{background:var(--ink);}
+.hero--split .hero__media{inset:0 0 0 auto;left:auto;right:0;top:0;width:54%;height:100%;}
+.hero--split .hero__scrim{background:linear-gradient(90deg,var(--ink) 0%,var(--ink) 44%,rgba(36,29,22,0.55) 56%,rgba(36,29,22,0.08) 100%);}
+.hero--split h1{max-width:12ch;}
+@media(max-width:860px){
+  .hero--split .hero__media{width:100%;}
+  .hero--split .hero__scrim{background:linear-gradient(180deg,rgba(36,29,22,0.35) 0%,rgba(36,29,22,0.6) 45%,rgba(36,29,22,0.95) 100%);}
+}
 </style>
 </head>
 <body>
@@ -335,11 +387,12 @@ p{margin:0;}
   </a>
   <ul class="sidenav__links">
     <li><a href="index.html"><span class="num">01</span> Home</a></li>
-    <li><a href="index.html#work"><span class="num">02</span> Work</a></li>
-    <li><a href="index.html#services"><span class="num">03</span> Services</a></li>
-    <li><a href="models.html"><span class="num">04</span> 3D Models</a></li>
-    <li><a href="about.html"><span class="num">05</span> About</a></li>
-    <li><a href="contact.html"><span class="num">06</span> Contact</a></li>
+    <li><a href="models.html#shop"><span class="num">02</span> Shop 3D Models</a></li>
+    <li><a href="models.html"><span class="num">03</span> Custom &amp; Miniatures</a></li>
+    <li><a href="index.html#work"><span class="num">04</span> Interiors</a></li>
+    <li><a href="index.html#services"><span class="num">05</span> Services</a></li>
+    <li><a href="about.html"><span class="num">06</span> About</a></li>
+    <li><a href="contact.html"><span class="num">07</span> Contact</a></li>
   </ul>
   <a href="contact.html" class="sidenav__cta">Start a project <span>&rarr;</span></a>
   <div class="sidenav__foot">Interiors<br>Construction<br>3D Design<br>Models &amp; Miniatures</div>
@@ -409,6 +462,7 @@ p{margin:0;}
           <a href="index.html#work">Work</a>
           <a href="index.html#services">Services</a>
           <a href="models.html">3D Models</a>
+          <a href="models.html#shop">Shop</a>
           <a href="models.html">3D &amp; Miniatures</a>
           <a href="about.html">About</a>
           <a href="contact.html">Contact</a>
